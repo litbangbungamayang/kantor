@@ -159,9 +159,10 @@
       let arr_dispo = JSON.parse(valResultDispoSurat.val());
       if(arr_tujuan_dispo.length > 0){
         cbxTujuanDispo.setValue(arr_tujuan_dispo);
+      }
+      if(arr_dispo.length > 0){
         cbxDispoSurat.setValue(arr_dispo);
       }
-      
     }
   })
 
