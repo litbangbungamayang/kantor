@@ -23,7 +23,7 @@ class App extends BaseConfig
 	 *
 	 * @var string
 	 */
-	public $baseURL = 'http://localhost/kantor/';
+	public $baseURL = 'http://localhost/kebun-2/';
 
 	/**
 	 * --------------------------------------------------------------------------

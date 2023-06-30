@@ -47,7 +47,7 @@ class BaseController extends Controller
 		//--------------------------------------------------------------------
 		// E.g.: $this->session = \Config\Services::session();
 		$this->session = \Config\Services::session();
-		$this->model_petakKebun = model("M_PetakKebun");
+		$this->m_petakKebun = model("M_PetakKebun");
 		$this->m_user = model("M_User");
 		$this->m_surat = model("M_Surat");
 		$this->session = \Config\Services::session();
