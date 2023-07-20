@@ -115,4 +115,46 @@ class M_User extends Model{
     }
   }
 
+  private function tanggal_bulan($month, $year){
+		$num = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+		$dates_month = array();
+
+		for ($i = 1; $i <= $num; $i++) {
+			$mktime = mktime(0, 0, 0, $month, $i, $year);
+			$date = date("Y-m-d", $mktime);
+			$dates_month[$i] = $date;
+		}
+
+		return $dates_month;
+	}
+
+  public function getReportPresensi($param){
+    $bulan = substr($param,5,2);
+		$tahun = substr($param,0,4);
+
+		$arTgl = $this->tanggal_bulan($bulan, $tahun);
+		$sql_1 = 'select
+			ca.nm_pegawai,
+		';
+		$sql_pivot = '';
+		foreach($arTgl as $tgl){
+			$sql_pivot .= 'max(CASE WHEN ca.tgl_presensi="'.$tgl.'" THEN pres.cek_in END) "'.$tgl.'",';
+		}
+		$sql_pivot .= '(select NULL) as keterangan ';
+		$sql_from = 'from
+				(select
+						kal.tanggal, pres.id_pegawai, pres.tgl_presensi, pres.cek_in, peg.nm_pegawai
+					from tbl_kantor_kalender kal
+					cross join tbl_kantor_presensi pres
+					join tbl_kantor_pegawai peg on peg.id_pegawai = pres.id_pegawai
+				) ca
+			left join tbl_kantor_presensi pres
+				on pres.id_pegawai = ca.id_pegawai
+				and pres.tgl_presensi = ca.tgl_presensi
+			group by ca.id_pegawai';
+		$result = $this->db->query($sql_1.$sql_pivot.$sql_from)->getResultArray();
+		var_dump($result); die();
+    //var_dump($sql_1.$sql_pivot.$sql_from);
+  }
+
 }

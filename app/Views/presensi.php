@@ -20,7 +20,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-12">
+            <div class="row col-lg-12">
                 <div class="row row-cards">
                     <div class="col-lg-6">
                         <div class="card">
@@ -44,6 +44,28 @@
                                 </div>
                                 <div class="col text-center">
                                     <button id="btnSubmitPresensi" onClick="konfirmasiPresensi();" class="btn btn-pill btn-primary">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row col-lg-12">
+                <div class="row row-cards">
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-status-top bg-lime"></div>
+                            <div class="card-body">
+                                <h3 class="card-title"> Laporan Presensi</h3>
+                                <div class="form-group row mb-3">
+                                    <label class="col-sm-4 col-form-label">Periode Laporan</label>
+                                    <div class="col-sm-4">
+                                        <!-- <select class="" name="bulan" id="bulan"></select> -->
+                                        <input type="month" class="form-control" name="bulan_laporan" id="bulan_laporan" placeholder="Periode">
+                                    </div>
+                                </div>
+                                <div class="col text-center">
+                                    <button id="btnSubmitPresensi" onClick="viewLaporan();" class="btn btn-pill btn-primary">Submit</button>
                                 </div>
                             </div>
                         </div>

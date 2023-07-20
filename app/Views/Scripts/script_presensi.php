@@ -22,6 +22,8 @@
   var actual_lon = 0.0;
   var accuracy = 0;
   var dummy = 0;
+  var $cbxBulan, cbxBulan;
+  var blnLaporan = $("#bulan_laporan");
 
   
   function defaultLoad(){
@@ -34,6 +36,32 @@
     /********************/
   }
   
+  /*
+  $cbxBulan = $("#bulan").selectize({
+    valueField: 'id',
+    labelField: 'bulan',
+    sortField: 'id',
+    searchField: 'bulan',
+    maxItems: 1,
+    create: false,
+    placeholder: "Pilih bulan laporan..",
+    options: [
+      {id: '01', bulan: 'Januari'},
+      {id: '02', bulan: 'Februari'},
+      {id: '03', bulan: 'Maret'},
+      {id: '04', bulan: 'April'},
+      {id: '05', bulan: 'Mei'},
+      {id: '06', bulan: 'Juni'},
+      {id: '07', bulan: 'Juli'},
+      {id: '08', bulan: 'Agustus'},
+      {id: '09', bulan: 'September'},
+      {id: '10', bulan: 'Oktober'},
+      {id: '11', bulan: 'November'},
+      {id: '12', bulan: 'Desember'}
+    ]
+  })
+  cbxBulan = $cbxBulan[0].selectize;
+  */
 
   function getLocation(){
     if(navigator.geolocation){
@@ -139,6 +167,23 @@
       return null;
     }
   }
+
+  function viewLaporan(){
+    if(blnLaporan.val() !== ''){
+      $.ajax({
+          url: js_base_url + 'C_user/getReportPresensi',
+          type: 'POST',
+          data: {
+            'bulan' : blnLaporan.val(),
+          },
+          dataType: 'json',
+          success: function(res){
+            console.log(res);
+          }
+      });
+    }
+  }
+
 </script>
 <script>
   function refreshData(){
