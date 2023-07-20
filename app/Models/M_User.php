@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+
 use CodeIgniter\Model;
+
 
 class M_User extends Model{
 
@@ -153,8 +155,9 @@ class M_User extends Model{
 				and pres.tgl_presensi = ca.tgl_presensi
 			group by ca.id_pegawai';
 		$result = $this->db->query($sql_1.$sql_pivot.$sql_from)->getResultArray();
-		var_dump($result); die();
+		//var_dump($result); die();
     //var_dump($sql_1.$sql_pivot.$sql_from);
+    return json_encode($result);
   }
 
 }

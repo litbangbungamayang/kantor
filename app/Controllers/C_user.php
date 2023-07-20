@@ -1,8 +1,11 @@
 <?php
 
 namespace App\Controllers;
+require 'vendor/autoload.php';
 
 use Config\Services;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class C_user extends BaseController
 {
@@ -87,7 +90,11 @@ class C_user extends BaseController
 	public function getReportPresensi(){
 		$bulanLaporan = $this->request->getPost('bulan');
 		//var_dump($this->m_user->getReportPresensi($bulanLaporan));
-		return $this->m_user->getReportPresensi($bulanLaporan);
+		//return $this->m_user->getReportPresensi($bulanLaporan);
+		$spreadsheed = new Spreadsheet();
+		$sheet = $spreadsheed->getActiveSheet();
+		//$objResult = json_decode($this->m_user->getReportPresensi($bulanLaporan));
+		//var_dump($objResult);
 	}
 }
 ?>
