@@ -10,13 +10,26 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class C_user extends BaseController
 {
 	public function cekRole($request){
-		return $this->m_user->cekRole(array($request));
+		//return $this->m_user->cekRole(array($request));
+		$module_name = $request;
+		$user_role = json_decode(session('akses_modul'));
+		if(!is_null($user_role)){
+			foreach($user_role as $role){
+				if($module_name ==  $role->module){
+					return $role->level;
+				}
+			}
+		}
+		return null;
 	}
 
 	public function presensi(){
 		//module_id = 1
 		if ($this->session->has('username') == true){
-			return view('presensi');
+			$data = array(
+				'role' => $this->cekRole('presensi')
+			);
+			return view('presensi', $data);
 		} else {
 			return redirect('login');
 		}

@@ -50,7 +50,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row col-lg-12">
+            <div class="row col-lg-12" style="<? echo ($role == 'admin') ? '' : 'display:none';?>">
                 <div class="row row-cards">
                     <div class="col-lg-6">
                         <div class="card">
