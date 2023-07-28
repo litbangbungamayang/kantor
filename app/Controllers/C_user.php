@@ -88,13 +88,66 @@ class C_user extends BaseController
 	}
 
 	public function getReportPresensi(){
-		$bulanLaporan = $this->request->getPost('bulan');
-		//var_dump($this->m_user->getReportPresensi($bulanLaporan));
-		//return $this->m_user->getReportPresensi($bulanLaporan);
-		$spreadsheed = new Spreadsheet();
-		$sheet = $spreadsheed->getActiveSheet();
-		//$objResult = json_decode($this->m_user->getReportPresensi($bulanLaporan));
-		//var_dump($objResult);
+		$bulanLaporan = $this->request->getGet('bulan');
+		$spreadsheet = new Spreadsheet();
+		$sheet = $spreadsheet->getActiveSheet();
+		$objResult = json_decode($this->m_user->getReportPresensi($bulanLaporan));
+		/*
+		$jmlBaris = sizeof($objResult);
+		$jmlKolom = sizeof((array)$objResult[0]);
+		for($kolom = 1; $kolom <= $jmlKolom; $kolom++){
+			for($baris = 1; $baris <= $jmlBaris; $baris++){
+				$arKolom = (array)$objResult[$baris-1];
+				$sheet->setCellValue([$kolom, $baris],($arKolom[$kolom-1]));
+			}
+		}
+		$sheet->setCellValue('A1', 'HORE');
+		$writer = new Xlsx($spreadsheet);
+		$writer->save('Laporan.xlsx');
+		*/
+		
+		$data = (array)$objResult;
+		$data_kolom = (array)$objResult[0];
+		// (3) SET CELL VALUE
+		// set header
+		for($i = 0; $i < sizeof($data_kolom); $i++){
+		$nama_kolom = array_keys($data_kolom);
+		$sheet->setCellValueByColumnAndRow($i+1, 1, $nama_kolom[$i]);
+		}
+		//set isi
+		for($baris = 0; $baris < sizeof($data); $baris++){
+			for($kolom = 0; $kolom < sizeof($data_kolom); $kolom++){
+				$nama_kolom = array_keys($data_kolom);
+				$isi = ((array)$data[$baris]);
+				$sheet->setCellValueByColumnAndRow($kolom+1,$baris+2,$isi[$nama_kolom[$kolom]]);
+			}
+		}
+		//$temp_file = tempnam(sys_get_temp_dir(), 'GeneratedFile');
+		$temp_file = tempnam(WRITEPATH.'uploads/', 'LaporanPresensi_');
+		$temp_file = $temp_file.'.xlsx';
+		$writer = new Xlsx($spreadsheet);
+		$writer->save($temp_file);
+		header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename='.basename($temp_file));
+        header('Content-Transfer-Encoding: binary');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Pragma: public');
+        header('Content-Length: ' . filesize($temp_file));
+        ob_clean();
+        flush();
+        readfile($temp_file);
+		/*
+		header('Content-Type: application/vnd.ms-excel');
+		header('Content-Disposition: attachment;filename="'.$temp_file.'"');
+		header('Cache-Control: max-age=0');
+		ob_clean();
+		flush();
+		readfile($temp_file);
+		*/
+		//return json_encode('Laporan OK');
+		exit;
 	}
 }
 ?>

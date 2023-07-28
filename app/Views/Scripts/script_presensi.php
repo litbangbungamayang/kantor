@@ -170,6 +170,7 @@
 
   function viewLaporan(){
     if(blnLaporan.val() !== ''){
+      /*
       $.ajax({
           url: js_base_url + 'C_user/getReportPresensi',
           type: 'POST',
@@ -178,9 +179,11 @@
           },
           dataType: 'json',
           success: function(res){
-            console.log(res);
+            window.location = js_base_url + 'C_user/getReportPresensi';
           }
       });
+      */
+     window.location = js_base_url + 'C_user/getReportPresensi?bulan=' + blnLaporan.val();
     }
   }
 

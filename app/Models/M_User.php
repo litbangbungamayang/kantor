@@ -131,16 +131,21 @@ class M_User extends Model{
 	}
 
   public function getReportPresensi($param){
-    $bulan = substr($param,5,2);
+    $bulan = substr($param,6,2);
 		$tahun = substr($param,0,4);
-
-		$arTgl = $this->tanggal_bulan($bulan, $tahun);
+    $valBulan = (int)$bulan;
+    $valTahun = (int)$tahun;
+    //preg_match("/([0-9]+)/", $bulan, $valBulan);
+    //var_dump($valTahun); die();
+		$arTgl = $this->tanggal_bulan(6, 2023);
+    
 		$sql_1 = 'select
 			ca.nm_pegawai,
 		';
 		$sql_pivot = '';
 		foreach($arTgl as $tgl){
-			$sql_pivot .= 'max(CASE WHEN ca.tgl_presensi="'.$tgl.'" THEN pres.cek_in END) "'.$tgl.'",';
+			//$sql_pivot .= 'max(CASE WHEN ca.tgl_presensi="'.$tgl.'" THEN pres.cek_in END) "'.$tgl.'",';
+      $sql_pivot .= 'IF(max(CASE WHEN ca.tgl_presensi="'.$tgl.'" THEN pres.status_dl END) = "true", "DL", IF(max(CASE WHEN ca.tgl_presensi="'.$tgl.'" THEN pres.cek_in END) IS NULL, "-", max(CASE WHEN ca.tgl_presensi="'.$tgl.'" THEN pres.cek_in END))) "'.$tgl.'",';
 		}
 		$sql_pivot .= '(select NULL) as keterangan ';
 		$sql_from = 'from
@@ -156,7 +161,7 @@ class M_User extends Model{
 			group by ca.id_pegawai';
 		$result = $this->db->query($sql_1.$sql_pivot.$sql_from)->getResultArray();
 		//var_dump($result); die();
-    //var_dump($sql_1.$sql_pivot.$sql_from);
+    //var_dump($sql_1.$sql_pivot.$sql_from); die();
     return json_encode($result);
   }
 

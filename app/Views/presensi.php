@@ -65,7 +65,7 @@
                                     </div>
                                 </div>
                                 <div class="col text-center">
-                                    <button id="btnSubmitPresensi" onClick="viewLaporan();" class="btn btn-pill btn-primary">Submit</button>
+                                    <button id="btnSubmitPresensi" onClick="viewLaporan();" class="btn btn-pill btn-primary">Download Laporan</button>
                                 </div>
                             </div>
                         </div>
